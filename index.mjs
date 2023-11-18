@@ -1,7 +1,11 @@
 import express from "express"
 const app = express()
 const port = 5000
+import planets from './routes/planets.mjs'
 
+// Middleware 
+app.use(express.json())
+app.use('/planets', planets)
 
 // Error Handling Middleware
 
