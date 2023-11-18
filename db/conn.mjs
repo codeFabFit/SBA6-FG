@@ -2,9 +2,10 @@ import { MongoClient } from "mongodb";
 // import dotenv from 'dotenv'
 // dotenv.config()
 
-const connectionString = process.env.ATLAS_URI || "mongodb+srv://fabgar14:youme4eva@mongopractice.tnhzj4s.mongodb.net/?retryWrites=true&w=majority"
 
+const connectionString = process.env.ATLAS_URI || "mongodb+srv://fabgar14:Youme4eva@mongopractice.tnhzj4s.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(connectionString);
+
 
 let conn;
 try {
@@ -14,5 +15,6 @@ try {
 }
 
 let db = conn.db("sample_guides");
+
 
 export default db;
