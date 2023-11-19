@@ -3,6 +3,9 @@ import db from "../db/conn.mjs"
 import { ObjectId } from "mongodb"
 const router = express.Router()
 
+
+
+
 // GET ROUTES 
 router.get("/", async (req, res)=> {
     const collection = await db.collection("planets") // the collection name 
@@ -10,7 +13,7 @@ router.get("/", async (req, res)=> {
 })
 
 // GET - Show - get one Planet 
-router.get('/:id', async(req, res) => {
+router.get('/:id', async (req, res) => {
     const collection = await db.collection("planets")
     const query = {_id: new ObjectId(req.params.id)}
     const results = await collection.findOne(query)
@@ -20,7 +23,7 @@ router.get('/:id', async(req, res) => {
 })
 
 // POST - create a Planet 
-router.post('/planets/', async (req,res) => {
+router.post('/:id', async (req,res) => {
     try {
         const {name, description} = req.body;
         const planetsConnection = db.collection('planets')
@@ -37,6 +40,19 @@ router.post('/planets/', async (req,res) => {
 
 
 // DELETE - delete a Planet
-
+router.delete('/planets/:id', async (req, res) => {
+    try {
+        const planetId = req.params.id
+        const deletePlanet = await planetId.Delete(planetId)
+        if (!deletedPlanet) 
+              return
+              res.status(404).send('Planet not found')
+        }
+     
+ catch (error) {
+        console.error(error)
+        res.status(500).send('Internal Server Error')
+    }
+})
 
 export default router;

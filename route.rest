@@ -1,25 +1,41 @@
 // get planets by its ID 
 GET http://localhost:3000/planets/621ff30d2a3e781873fcb65c
 Content-Type: application/json
-
+// another planet just testing
+###
+GET http://localhost:3000/planets/621ff30d2a3e781873fcb663
+Content-Type: application/json
+# 
 ###
 /// Adding a planet 
 
-PATCH http://localhost:3000/planets/
+POST  http://localhost:3000/planets
 Content-Type: application/json
-{
 
-"name": "Fabtopia",
-"orderFromSun": 9,
-"hasRings": true,
-"mainAtmosphere": [
-    "H4",
-    "H2O",
-    "CH4"
-],
-"surfaceTemperature": {
-    "min": null,
-    "max": null,
-    "mean": 214.95,
-},
+{
+    "name": "Fabtopia",
+    "description": "this is the greatest planet"
 }
+
+###
+
+DELETE http://localhost:3000/planets/621ff30d2a3e781873fcb660
+Content-Type: application/json
+
+
+ ###
+# "name": "Fabtopia",
+# "orderFromSun": 9,
+# "hasRings": true,
+# "mainAtmosphere": [
+#     "H4",
+#     "H2O",
+#     "CH4"
+# ],
+# "surfaceTemperature": {
+#     "min": null,
+#     "max": null,
+#     "mean": 214.95,
+# },
+# }
+
