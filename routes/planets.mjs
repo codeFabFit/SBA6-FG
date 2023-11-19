@@ -39,6 +39,43 @@ router.post('/:id', async (req,res) => {
 //Updated - aka patch - a Planet 
 
 
+    router.patch('/planets/:id', async (req, res) => {
+        try {
+          const planetId = req.params.id;
+          const { name, description } = req.body;
+      
+          // Check if planetId is a valid MongoDB ObjectID
+          if (!ObjectID.isValid(planetId)) {
+            return res.status(400).send('Invalid planet ID');
+          }
+      
+          // Connect to MongoDB
+          const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+          await client.connect();
+      
+          const db = client.db(dbName);
+          const planetsCollection = db.collection('planets');
+      
+          // Update the planet document by ID
+          const result = await planetsCollection.updateOne(
+            { _id: new ObjectID(planetId) },
+            { $set: { name, description } }
+          );
+      
+          client.close();
+      
+          if (result.matchedCount === 0) {
+            return res.status(404).send('Planet not found');
+          }
+      
+          res.json({ message: 'Planet updated successfully' });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Internal Server Error');
+        }
+      });
+
+
 // DELETE - delete a Planet by id
 // router.delete('/planets/:id', async (req, res) => {
     router.delete('/planets/:id', async (req, res) => {
