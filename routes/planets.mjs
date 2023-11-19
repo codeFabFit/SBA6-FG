@@ -39,20 +39,62 @@ router.post('/:id', async (req,res) => {
 //Updated - aka patch - a Planet 
 
 
-// DELETE - delete a Planet
-router.delete('/planets/:id', async (req, res) => {
-    try {
-        const planetId = req.params.id
-        const deletePlanet = await planetId.Delete(planetId)
-        if (!deletedPlanet) 
-              return
-              res.status(404).send('Planet not found')
+// DELETE - delete a Planet by id
+// router.delete('/planets/:id', async (req, res) => {
+    router.delete('/planets/:id', async (req, res) => {
+        try {
+          const planetId = req.params.id;
+      
+          // Check if planetId is a valid MongoDB ObjectID
+          if (!ObjectID.isValid(planetId)) {
+            return res.status(400).send('Invalid planet ID');
+          }
+      
+          // Connect to MongoDB
+          const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+          await client.connect();
+      
+          const db = client.db(dbName);
+          const planetsCollection = db.collection('planets');
+      
+          // Delete the planet document by ID
+          const result = await planetsCollection.deleteOne({ _id: new ObjectID(planetId) });
+      
+          client.close();
+      
+          if (result.deletedCount === 0) {
+            return res.status(404).send('Planet not found');
+          }
+      
+          res.json({ message: 'Planet deleted successfully' });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Internal Server Error');
         }
+      });
+
+//     try {
+//         const planetId = req.params.id;
+//         // const deletePlanet = await planetId.findByIdAndDelete(planetId)
+//         if (!ObjectId.isValid(planetId)) { 
+//               return
+//               res.status(404).send('Planet not found')
+//         }
      
- catch (error) {
-        console.error(error)
-        res.status(500).send('Internal Server Error')
-    }
-})
+// //  catch (error) {
+// //         console.error(error)
+// //         res.status(500).send('Internal Server Error')
+// //     }
+// // })
+
+// const result = await planetsConnection.deleteOne({_id: new ObjectId(planetId)})
+// client.close();
+// if (result.deleteOne === 0){
+//     res.status(404).send('PLanet Deleted Successfully')
+// } catch (error) {
+//     console.error(error)
+//     res.status(500).send('Internal Server Error')
+// }
+// })
 
 export default router;
