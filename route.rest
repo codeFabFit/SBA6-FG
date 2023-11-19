@@ -3,7 +3,7 @@ GET http://localhost:3000/planets/621ff30d2a3e781873fcb65c
 Content-Type: application/json
 // another planet just testing
 ###
-GET http://localhost:3000/planets/621ff30d2a3e781873fcb663
+621ff30d2a3e781873fcb661
 Content-Type: application/json
 # 
 ###
@@ -19,8 +19,8 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/planets/621ff30d2a3e781873fcb660
-Content-Type: application/json
+DELETE http://localhost:3000/planets/621ff30d2a3e781873fcb661
+# Content-Type: application/json
 
 
  ###
@@ -39,3 +39,12 @@ Content-Type: application/json
 # },
 # }
 
+###
+
+PATCH  http://localhost:3000/planets/621ff30d2a3e781873fcb65c
+Content-Type: application/json
+
+{
+    "name": "New Planet Name",
+
+}
