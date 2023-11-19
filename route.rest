@@ -1,3 +1,25 @@
-GET http://localhost:3000/planets/
+// get planets by its ID 
+GET http://localhost:3000/planets/621ff30d2a3e781873fcb65c
+Content-Type: application/json
 
+###
+/// Adding a planet 
 
+PATCH http://localhost:3000/planets/
+Content-Type: application/json
+{
+
+"name": "Fabtopia",
+"orderFromSun": 9,
+"hasRings": true,
+"mainAtmosphere": [
+    "H4",
+    "H2O",
+    "CH4"
+],
+"surfaceTemperature": {
+    "min": null,
+    "max": null,
+    "mean": 214.95,
+},
+}
