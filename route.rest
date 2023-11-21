@@ -1,12 +1,23 @@
-// get planets by its ID 
+
+GET http://localhost:3000/planets
+Content-Type: application/json
+
+###
+
 GET http://localhost:3000/planets/621ff30d2a3e781873fcb65c
 Content-Type: application/json
 // another planet just testing
 ###
 GET http://localhost:3000/planets/621ff30d2a3e781873fcb65f
 ###
-GET http://localhost:3000/planets
+# adding planet
+PATCH  http://localhost:3000/planets/621ff30d2a3e781873fcb65f
 Content-Type: application/json
+
+{
+    "name": "fabulous land",
+    "description": "greatest planet around"
+}
 
 ###
 
@@ -14,11 +25,3 @@ DELETE http://localhost:3000/planets/621ff30d2a3e781873fcb661
 Content-Type: application/json
 
 ### 
-# adding planet
-PATCH  http://localhost:3000/planets/
-Content-Type: application/json
-
-{
-    "name": "Fabtopia",
-    "description": "greatest planet around"
-}

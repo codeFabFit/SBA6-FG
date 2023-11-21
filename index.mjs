@@ -11,6 +11,7 @@ console.log("we did it")
 // Middleware 
 app.use(express.json())
 app.use('/planets', planets)
+console.log(planets)
 
 // Error Handling Middleware
 

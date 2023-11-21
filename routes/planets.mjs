@@ -4,15 +4,32 @@ import { ObjectId } from "mongodb"
 const router = express.Router()
 
 
+// ======== POST - create a Planet =========
+router.post('/:id', async (req,res) => {
+  try {
+      const { name, description } = req.body;
+      const planetsConnection = db.collection('planets')
+      const result = await planetsConnection.insertOne({ name, description})
+
+      res.status(201).json(result.ops[0])
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error")
+  }
+})
 
 
 // ====== GET ROUTES =======
 router.get("/", async (req, res)=> {
+  console.log("monkeys")
   try {
-    const planet = await Planet.find()
-    res.json(planet)
+    // const planet = await planet.find()
+    // res.json(planet)
     const collection = await db.collection("planets") // the collection name 
-    const result = await collection.find({}) // this will find the planets and show how many there are 
+    const result = await collection.find({}).limit(11).toArray()
+    console.log(result)
+      // this will find the planets and show how many there are 
+      res.status(201).json(result)
   } catch (error) {
     res.status(500).json({message: error.message})
   }
@@ -29,19 +46,19 @@ router.get('/:id', async (req, res) => {
     else res.send(results).status(200)
 })
 
-// ======== POST - create a Planet =========
-router.post('/:id', async (req,res) => {
-    try {
-        const { name, description } = req.body;
-        const planetsConnection = db.collection('planets')
-        const result = await planetsConnection.insertOne({ name, description})
+// // ======== POST - create a Planet =========
+// router.post('/:id', async (req,res) => {
+//     try {
+//         const { name, description } = req.body;
+//         const planetsConnection = db.collection('planets')
+//         const result = await planetsConnection.insertOne({ name, description})
 
-        res.status(201).json(result.ops[0])
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Server Error")
-    }
-})
+//         res.status(201).json(result.ops[0])
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Server Error")
+//     }
+// })
 
 // ===== Updated - aka patch - a Planet ========
 
@@ -57,20 +74,21 @@ router.post('/:id', async (req,res) => {
       
           const collection = await db.collection('planets')
           const query = { _id: new ObjectId(planetId)}
-          const updtae = { $set: name, description}
+          const update = { $set:{"name": name }}
           const result = await collection.updateOne(query, update)
-          
-          if (result.modifiedCount > 1){
-            res.status(200).send('Planet updated successfully');
-          } else {
-            res.status(404).send('Planet not found');
-          } 
+      
+          // if (result.modifiedCount > 1){
+          //   res.status(200).send('Planet updated successfully');
+          // } else {
+          //   res.status(404).send('Planet not found');
+          // } 
         }})
 
 
 // ======   DELETE - delete a Planet by id =======
 
-router.delete('/planets/:id', async (req, res) => { 
+router.delete('/:id', async (req, res) => { 
+  console.log("hello world")
   try {
     const planetId = req.params.id; 
     // Check if planetId is a valid MongoDB ObjectID
@@ -80,6 +98,7 @@ router.delete('/planets/:id', async (req, res) => {
 
     const collection = await db.collection('planets');
     const query = { _id: new ObjectId(planetId) };
+    console.log(query)
     const result = await collection.deleteOne(query);
 
     // Check if the deletion was successful
